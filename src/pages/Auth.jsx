@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { AnimatedBackground } from "../components/AnimatedBackground";
 import { ArrowRight, Eye, EyeOff, Lock, Mail, Github, Chrome } from "lucide-react";
+import supabase from '../db/supabase';
 
 export const Auth = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -14,7 +15,7 @@ export const Auth = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("Submitted");
+    console.log("Form submitted");
   };
 
   const handleInputChange = (e) => {
