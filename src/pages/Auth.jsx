@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import { AnimatedBackground } from "../components/AnimatedBackground";
 import { ArrowRight, Eye, EyeOff, Lock, Mail, Github, Chrome } from "lucide-react";
-import supabase from '../db/supabase';
+import { useSignup } from "../hooks/useSignup";
+import { useNavigate } from "react-router";
 
 export const Auth = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -9,13 +10,16 @@ export const Auth = () => {
   const [formData, setFormData] = useState({
     email: "",
     password: "",
-    confirmPassword: "",
     name: "",
   });
+  const { signup } = useSignup();
+  const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async(e) => {
     e.preventDefault();
-    console.log("Form submitted");
+    
+    await signup(formData);
+    navigate("/");
   };
 
   const handleInputChange = (e) => {
