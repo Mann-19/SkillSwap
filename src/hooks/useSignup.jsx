@@ -12,14 +12,15 @@ export const useSignup = () => {
         password: userData.password,
         options: {
           data: {
-            display_name: userData.name
-          }
+            display_name: userData.name,
+          },
+          emailRedirectTo: "http://localhost:5173/verify"
         }
       });
 
       if(!error) {
         console.log(data);
-        dispatch({ type: 'SET_USER', payload: userData, isLoading: false });
+        dispatch({ type: 'SET_USER', payload: userData });
       } else {
         throw new Error(error);
       }

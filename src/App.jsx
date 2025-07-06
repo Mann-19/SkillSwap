@@ -1,20 +1,30 @@
-import { useAuth } from "./hooks/useAuth";
-import { Navigate } from "react-router";
 import { BrowserRouter, Routes, Route } from "react-router";
-import { Auth } from "./pages/Auth";
 import { Home } from "./pages/Home";
+import { Auth } from "./pages/Auth";
+import { Verify } from "./pages/Verify";
+import { ProtectedRoute } from "./components/ProtectedRoute";
 
 function App() {
-  const { state } = useAuth();
-
   return (
     <BrowserRouter>
       <Routes>
-        <Route index path="/" element={state.user ? <Home /> : <Navigate to={"/login"} /> } />
+        {/* Main home route (protected) */}
+        <Route
+          index
+          path="/"
+          element={
+            <ProtectedRoute>
+              <Home />
+            </ProtectedRoute>
+          }
+        />
+        {/* Login Route */}
         <Route path="/login" element={<Auth />} />
+        {/* Email verification route */}
+        <Route path="/verify" element={<Verify />} />
       </Routes>
     </BrowserRouter>
-  )
+  );
 }
 
 export default App;

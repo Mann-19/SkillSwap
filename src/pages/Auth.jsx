@@ -1,25 +1,49 @@
 import { useEffect, useState } from "react";
 import { AnimatedBackground } from "../components/AnimatedBackground";
-import { ArrowRight, Eye, EyeOff, Lock, Mail, Github, Chrome } from "lucide-react";
+import {
+  ArrowRight,
+  Eye,
+  EyeOff,
+  Lock,
+  Mail,
+  Github,
+  Chrome,
+} from "lucide-react";
 import { useSignup } from "../hooks/useSignup";
 import { useNavigate } from "react-router";
+import { useLogin } from "../hooks/useLogin";
+import { useAuth } from "../hooks/useAuth";
 
 export const Auth = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [isLogin, setIsLogin] = useState(true);
+  const [submitting, setSubmitting] = useState(false);
   const [formData, setFormData] = useState({
     email: "",
     password: "",
     name: "",
   });
   const { signup } = useSignup();
+  const { login } = useLogin();
   const navigate = useNavigate();
+  const { state } = useAuth();
 
-  const handleSubmit = async(e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    
-    await signup(formData);
-    navigate("/");
+    setSubmitting(true);
+
+    try{
+      if (isLogin) {
+        await login(formData);
+      } else {
+        await signup(formData);
+      }
+      navigate("/");
+    } catch(error) {
+      console.error(error);
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   const handleInputChange = (e) => {
@@ -31,7 +55,11 @@ export const Auth = () => {
       <div className="bg-black min-h-[100vh] max-h-[100vh] px-10 py-6">
         {/* Logo */}
         <div id="logo" className="flex items-center">
-          <img src="/logo.png" alt="logo" className="w-8 h-8 aspect-square mr-3" />
+          <img
+            src="/logo.png"
+            alt="logo"
+            className="w-8 h-8 aspect-square mr-3"
+          />
           <span className="text-3xl text-white font-bold">Skill</span>
           <span className="text-3xl text-emerald-500 font-bold">Swap</span>
         </div>
@@ -46,6 +74,7 @@ export const Auth = () => {
           {/* Toggle Buttons */}
           <div className="flex bg-zinc-800/50 rounded-2xl p-1 mb-8 font-bold">
             <button
+              type="button"
               className={`px-4 py-3 text-base rounded-xl flex-1 transition-all cursor-pointer ${
                 isLogin
                   ? "bg-emerald-600 text-white shadow-lg"
@@ -58,6 +87,7 @@ export const Auth = () => {
               Sign In
             </button>
             <button
+              type="button"
               className={`px-4 py-3 text-base rounded-xl flex-1 transition-all cursor-pointer ${
                 isLogin
                   ? "text-zinc-400 hover:text-white"
@@ -140,6 +170,7 @@ export const Auth = () => {
                   className="w-full pl-12 pr-12 py-4 bg-zinc-800/50 border border-zinc-700 rounded-xl text-white placeholder-zinc-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500/50 transition-all"
                 />
                 <button
+                  type="button"
                   onClick={() => setShowPassword(!showPassword)}
                   className="absolute inset-y-0 right-0 pr-4 flex items-center text-zinc-500 hover:text-zinc-300 transition-colors"
                 >
@@ -155,7 +186,10 @@ export const Auth = () => {
             {/* Forgot Password (Login only) */}
             {isLogin && (
               <div className="flex justify-end">
-                <button className="text-sm text-emerald-400 hover:text-emerald-300 transition-colors">
+                <button
+                  type="button"
+                  className="text-sm text-emerald-400 hover:text-emerald-300 transition-colors"
+                >
                   Forgot Password?
                 </button>
               </div>
@@ -164,10 +198,19 @@ export const Auth = () => {
             {/* Submit Button */}
             <button
               type="submit"
+              disabled={submitting}
               className="w-full bg-emerald-600 hover:bg-emerald-700 text-white py-4 rounded-xl font-medium transition-all flex items-center justify-center space-x-3 hover:shadow-2xl hover:shadow-emerald-500/25 hover:scale-[1.02] transform group cursor-pointer"
             >
-              <span>{isLogin ? "Sign In" : "Create Account"}</span>
-              <ArrowRight className="h-5 w-5 mt-[1.5px] aspect-square group-hover:translate-x-1 transition-transform duration-300" />
+              {submitting ? 
+                (
+                  <div className="w-4 h-4 border-2 border-white border-t-transparent animate-spin rounded-full"></div>
+                ) : (
+                  <span className="flex space-x-4">
+                    <span>{isLogin ? "Sign In" : "Create Account"}</span>
+                    <ArrowRight className="h-5 w-5 mt-[1.5px] aspect-square group-hover:translate-x-1 transition-transform duration-300" />
+                  </span>
+                )
+              }
             </button>
           </form>
 
@@ -193,7 +236,6 @@ export const Auth = () => {
               </span>
             </button>
           </div>
-
         </div>
       </div>
     </>
