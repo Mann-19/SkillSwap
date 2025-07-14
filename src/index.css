@@ -6,6 +6,10 @@
   * {
     font-family: 'Inter', system-ui, sans-serif;
   }
+  body {
+    overflow-x: hidden;
+    background: black;
+  }
 }
 
 @layer utilities {

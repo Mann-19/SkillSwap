@@ -3,6 +3,8 @@ import { useEffect, useState } from "react";
 import { AnimatedBackground } from '../components/AnimatedBackground';
 import { FloatingSkills } from '../components/FloatingSkills';
 import { Navbar } from "../components/Navbar";
+import { Hero } from "../components/Hero";
+import { FilterBar } from "../components/FilterBar";
 
 export const Home = () => {
   const [userName, setUserName] = useState('');
@@ -17,17 +19,24 @@ export const Home = () => {
   }, [])
 
   return (
-    <main className="h-screen w-screen bg-black">
+    <div className="min-h-screen bg-black">
+      {/* Header */}
+      <Navbar userName={userName} />
+
       {/* Animated BG component */}
       <AnimatedBackground />
 
       {/* Skills component */}
       <FloatingSkills />
+      
+      {/* Main content */}
+      <main className="mx-auto">
+        {/* Hero Section */}
+        <Hero />
 
-      {/* Navbar */}
-      <Navbar userName={userName} />
-
-      {/* Hero Section */}
-    </main>
-  )
+        {/* Filter Bar */}
+        <FilterBar />
+      </main>
+    </div>
+  );
 }

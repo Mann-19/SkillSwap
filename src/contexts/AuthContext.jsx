@@ -30,9 +30,7 @@ export const AuthContextProvider = ({ children }) => {
   useEffect(() => {
     const checkSessionUser = async () => {
       const { data } = await supabase.auth.getSession();
-      if(data?.session) {
-        dispatch({ type: 'SET_USER', payload: data?.session?.user || null });
-      }
+      dispatch({ type: 'SET_USER', payload: data?.session?.user || null });
     };
     checkSessionUser();
 
