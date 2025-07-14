@@ -1,20 +1,42 @@
-import { useLogout } from "../hooks/useLogout";
-import { useAuth } from "../hooks/useAuth";
+import supabase from "../db/supabase";
+import { useEffect, useState } from "react";
+import { AnimatedBackground } from '../components/AnimatedBackground';
+import { FloatingSkills } from '../components/FloatingSkills';
+import { Navbar } from "../components/Navbar";
+import { Hero } from "../components/Hero";
+import { FilterBar } from "../components/FilterBar";
 
 export const Home = () => {
-  const { state } = useAuth();
-  const { logout } = useLogout();
+  const [userName, setUserName] = useState('');
 
-  async function handleLogout(e) {
-    e.preventDefault();
-    await logout();
+  async function fetchUser() {
+    const { data } = await supabase.auth.getUser();
+    setUserName(data?.user?.user_metadata?.display_name);
   }
 
-  return (
-    <div>
-      <p className="text-2xl">Home</p>
+  useEffect(() => {
+    fetchUser();
+  }, [])
 
-      <button type="button" onClick={handleLogout}>Logout</button>
+  return (
+    <div className="min-h-screen bg-black">
+      {/* Header */}
+      <Navbar userName={userName} />
+
+      {/* Animated BG component */}
+      <AnimatedBackground />
+
+      {/* Skills component */}
+      <FloatingSkills />
+      
+      {/* Main content */}
+      <main className="mx-auto">
+        {/* Hero Section */}
+        <Hero />
+
+        {/* Filter Bar */}
+        <FilterBar />
+      </main>
     </div>
-  )
+  );
 }
