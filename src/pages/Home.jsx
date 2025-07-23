@@ -5,6 +5,7 @@ import { FloatingSkills } from '../components/FloatingSkills';
 import { Navbar } from "../components/Navbar";
 import { Hero } from "../components/Hero";
 import { FilterBar } from "../components/FilterBar";
+import { CreateTradeForm } from "../components/CreateTradeForm";
 
 export const Home = () => {
   const [userName, setUserName] = useState('');
@@ -19,7 +20,7 @@ export const Home = () => {
   }, [])
 
   return (
-    <div className="min-h-screen bg-black">
+    <div className="min-h-screen bg-primary-dark">
       {/* Header */}
       <Navbar userName={userName} />
 
@@ -36,7 +37,11 @@ export const Home = () => {
 
         {/* Filter Bar */}
         <FilterBar />
+
       </main>
+
+      {/* Create Form Overlay */}
+      <CreateTradeForm />
     </div>
   );
 }

@@ -2,6 +2,13 @@
 
 @import "tailwindcss";
 
+@theme {
+  --color-primary-dark: #000;
+  --color-secondary-dark: #101010;
+  --color-secondary-dark2: #1d1d1d;
+  --color-accent: oklch(69.6% 0.17 162.48);
+}
+
 @layer base {
   * {
     font-family: 'Inter', system-ui, sans-serif;
