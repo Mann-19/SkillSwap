@@ -1,7 +1,8 @@
 import { Plus, ArrowDown } from "lucide-react";
+import { useCollapseForm } from "../contexts/FormCollapseContext";
 
 export const Hero = () => {
-  function scrollToSkills() {}
+  const { openForm } = useCollapseForm();
 
   return (
     <section className="z-10 mt-20">
@@ -19,7 +20,11 @@ export const Hero = () => {
       </div>
 
       <div className="flex gap-4 justify-center items-center mb-12">
-        <button className="bg-emerald-600 hover:bg-emerald-700 text-white px-8 py-3 rounded-2xl font-medium transition-all flex items-center space-x-3 hover:shadow-2xl hover:shadow-emerald-500/25 hover:scale-105 transform cursor-pointer">
+        <button
+          type="button"
+          className="bg-emerald-600 hover:bg-emerald-700 text-white px-8 py-3 rounded-2xl font-medium transition-all flex items-center space-x-3 hover:shadow-2xl hover:shadow-emerald-500/25 hover:scale-105 transform cursor-pointer"
+          onClick={openForm}
+        >
           <Plus className="h-6 w-6 group-hover:rotate-90 transition-transform duration-300" />
           <span>Create a Trade</span>
         </button>
@@ -33,17 +38,23 @@ export const Hero = () => {
       <div className="flex justify-between max-w-xl mx-auto mt-18">
         <div className="flex flex-col text-center">
           <h2 className="text-emerald-400 text-3xl font-bold">10K+</h2>
-          <span className="text-base text-zinc-400 tracking-wider">Active Members</span>
+          <span className="text-base text-zinc-400 tracking-wider">
+            Active Members
+          </span>
         </div>
 
         <div className="flex flex-col text-center">
           <h2 className="text-emerald-400 text-3xl font-bold">500+</h2>
-          <span className="text-base text-zinc-400 tracking-wider">Skills Available</span>
+          <span className="text-base text-zinc-400 tracking-wider">
+            Skills Available
+          </span>
         </div>
 
         <div className="flex flex-col text-center">
           <h2 className="text-emerald-400 text-3xl font-bold">95%</h2>
-          <span className="text-base text-zinc-400 tracking-wider">Success Rate</span>
+          <span className="text-base text-zinc-400 tracking-wider">
+            Success Rate
+          </span>
         </div>
       </div>
     </section>

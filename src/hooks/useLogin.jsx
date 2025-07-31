@@ -12,8 +12,6 @@ export const useLogin = () => {
         });
 
         if(error) throw new Error(error);
-
-        console.log(data);
         dispatch({ type: 'SET_USER', payload: userData });
     } catch(error) {
         console.error(error);
